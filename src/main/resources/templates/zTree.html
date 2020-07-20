@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{zTree/css/zTreeStyle/zTreeStyle.css}">
+    <script src="zTree/js/jquery-1.4.4.min.js"></script>
+    <script src="zTree/js/jquery.ztree.core.js"></script>
+
+</head>
+<body>
+<div th:text="${hello}"></div>
+<script>
+    let setting = {
+        data: {
+            key: {
+                name: "name",
+                title: "",
+                url: "url"
+            },
+            simpleData: {
+                enable: true,
+                idKey: "id",
+                pIdKey: "pId",
+                rootPId: 0
+            }
+        }
+    };
+
+    $(document).ready(function () {
+        $.fn.zTree.init($("#treeDemo"), setting);
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>客户关系管理系统</title>
+    <script type="text/javascript" src="jquery-easyui/jquery.min.js"></script>
+    <style type=text/css>
+        body {
+            text-align: center;
+            padding-bottom: 0px;
+            background-color: #ddeef2;
+            margin: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-top: 0px
+        }
+
+        a:link {
+            color: #000000;
+            text-decoration: none
+        }
+
+        a:visited {
+            color: #000000;
+            text-decoration: none
+        }
+
+        a:hover {
+            color: #ff0000;
+            text-decoration: underline
+        }
+
+        a:active {
+            text-decoration: none
+        }
+
+        .input {
+            border-bottom: #ccc 1px solid;
+            border-left: #ccc 1px solid;
+            line-height: 20px;
+            width: 182px;
+            height: 20px;
+            border-top: #ccc 1px solid;
+            border-right: #ccc 1px solid
+        }
+
+        .input1 {
+            border-bottom: #ccc 1px solid;
+            border-left: #ccc 1px solid;
+            line-height: 20px;
+            width: 120px;
+            height: 20px;
+            border-top: #ccc 1px solid;
+            border-right: #ccc 1px solid;
+        }
+    </style>
+    <script type="text/javascript">
+        function login() {
+            let userName = $("#username").val();
+            let userPassword = $("#password").val();
+            if (userName == null || userName == "") {
+                alert("用户名不能为空！");
+                return;
+            }
+            if (userPassword == null || userPassword == "") {
+                alert("密码不能为空！");
+                return;
+            }
+            $.ajax({
+                url: "login",
+                type: "post",
+                dataType: "json",
+                data: {
+                    "userName": userName,
+                    "userPassword": userPassword,
+                    "rememberMe":$("#rememberMe").prop("checked")
+                },
+                success: function (data) {
+                    if (data["rows"]!=null){
+                        for (let i in data["rows"]){
+                            sessionStorage.setItem("user",JSON.stringify(data["rows"][i]["user"]));
+                            sessionStorage.setItem("role",JSON.stringify(data["rows"][i]["role"]))
+                        }
+                    }
+                        if (data["code"]==1){
+                            alert(data["message"])
+                            location.href="admin/html/main.html";
+                        }else if (data["code"==-1]){
+                            alert(data["message"]);
+                        }
+                }
+            })
+        }
+
+    </script>
+</head>
+<body>
+<form id=adminlogin method=post
+      name=adminlogin action="#">
+    <div></div>
+    <table style="margin: auto; width: 100%; height: 100%" border=0
+           cellspacing=0 cellpadding=0>
+        <tbody>
+        <tr>
+            <td height=150>&nbsp;</td>
+        </tr>
+        <tr style="height: 254px">
+            <td>
+                <div style="margin: 0px auto; width: 936px">
+                    <image
+                            style="display: block" src="images/body_03.jpg"/>
+                </div>
+                <div style="background-color: #278296">
+                    <div style="margin: 0px auto; width: 936px">
+                        <div
+                                style="background: url('images/body_052.jpg') no-repeat; height: 155px">
+                            <div
+                                    style="text-align: left; width: 265px; float: right; height: 125px; _height: 95px">
+                                <table border=0 cellspacing=0 cellpadding=0 width="100%">
+                                    <tbody>
+                                    <tr>
+                                        <td style="height: 45px"><input type="text" class=input name="username"
+                                                                        id="username"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="password" class=input name="password" id="password"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="rememberMe">记住我<input type="checkbox" id="rememberMe" name="rememberMe"></label></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="height: 1px; clear: both"></div>
+                            <div style="width: 380px; float: right; clear: both">
+                                <table border=0 cellspacing=0 cellpadding=0 width=300>
+                                    <tbody>
+
+                                    <tr>
+                                        <td width=100 align=right><input
+                                                style="border-right-width: 0px; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px"
+                                                id=btnlogin src="images/btn1.jpg" type=image name=btnlogin
+                                                onclick="javascript:login();return false;"></td>
+                                        <td width=100 align=middle><input
+                                                style="border-right-width: 0px; border-top-width: 0px; border-bottom-width: 0px; border-left-width: 0px"
+                                                id=btnreset src="images/btn2.jpg" type=image name=btnreset
+                                                onclick="javascript:adminlogin.reset();return false;"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin: 0px auto; width: 936px"><img
+                        src="images/body_06.jpg"></div>
+            </td>
+        </tr>
+        <tr style="height: 30%">
+            <td>&nbsp;</td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+
+</body>
+</html>

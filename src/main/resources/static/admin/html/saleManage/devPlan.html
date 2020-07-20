@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>客户开发计划管理</title>
+    <link rel="stylesheet" type="text/css" href="../../../jquery-easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../../jquery-easyui/themes/icon.css">
+    <script type="text/javascript" src="../../../jquery-easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../../../jquery-easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../../../jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script>
+        function formatDevResult(devResult) {
+            switch (devResult) {
+                case 0:
+                    return "未开发";
+                case 1:
+                    return "开发种";
+                case 2:
+                    return "开发成功";
+                case 3:
+                    return "开发失败"
+            }
+        }
+        function openDevPlanItemTab(id,show) {
+            if (show){
+                window.parent.openTab("客户开发计划项管理","devPlanItem.html");
+            }else {
+                window.parent.openTab("查看客户开发计划项","devPlanItem.html");
+            }
+        }
+
+        function formatAction(val, row) {
+            switch (row["devResult"]) {
+                case 0:
+                case 1:
+                    return "<a href='javascript:openDevPlanItemTab("+row["id"]+",true)'>开发</a>";
+                case 2:
+                case 3:
+                    return "<a href='javascript:openDevPlanItemTab("+row["id"]+",false)'>查看详细信息</a>";
+            }
+        }
+        function search() {
+            $('#datagrid').datagrid('load', {
+                "customerName":$("#customerNameSearch").val(),
+                "overview":$("#overviewSearch").val(),
+                "devResult":$("#devResultSearch").val()
+            });
+        }
+        function f() {
+
+        }
+    </script>
+</head>
+<body>
+<table class="easyui-datagrid"
+       id="datagrid"
+       data-options="url:'../../saleChance',fitColumns:true,singleSelect:true,method:'get',pagination:true,toolbar:'#toolbar'">
+    <thead>
+    <tr>
+        <th data-options="field:'id',width:'50',align:'center'">编号</th>
+        <th data-options="field:'chanceSource',width:'200',align:'center',hidden:'true'">机会来源1</th>
+        <th data-options="field:'customerName',width:'50',align:'center'">客户名称</th>
+        <th data-options="field:'cgjl',width:'50',align:'center',hidden:'true'">成功几率</th>
+        <th data-options="field:'overview',width:'200',align:'center'">概要</th>
+        <th data-options="field:'linkMan',width:'100',align:'center'">联系人</th>
+        <th data-options="field:'linkPhone',width:'100',align:'center',hidden:'true'">联系电话</th>
+        <th data-options="field:'description',width:'200',align:'center',hidden:'true'">机会描述</th>
+        <th data-options="field:'createMan',width:'100',align:'center'">创建人</th>
+        <th data-options="field:'createTime',width:'150',align:'center'">创建时间</th>
+        <th data-options="field:'assignMan',width:'50',align:'center'">指派人</th>
+        <th data-options="field:'assignTime',width:'150',align:'center'">指派时间</th>
+        <th data-options="field:'state',width:'100',align:'center',hidden:'true'">状态</th>
+        <th data-options="field:'devResult',width:'100',align:'center',formatter:formatDevResult">客户开发状态</th>
+        <th data-options="field:'action',width:'100',align:'center',formatter:formatAction">操作</th>
+    </tr>
+    </thead>
+</table>
+<div id="toolbar">
+    <div>
+        <label for="customerNameSearch">
+            客户名称
+            <input id="customerNameSearch" type="text">
+        </label>
+        <label for="overviewSearch">
+            概要
+            <input id="overviewSearch" type="text"></label>
+
+        <label for="devResultSearch">请选择开发状态
+            <select id="devResultSearch" class="easyui-combobox"bstyle="width:200px;">
+                <option value="">请选择开发状态</option>
+                <option value="0">未开发</option>
+                <option value="1">开发中</option>
+                <option value="2">开发成功</option>
+                <option value="3">开发失败</option>
+            </select></label>
+        <a id="search" href="javascript:search()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">搜索</a>
+    </div>
+</div>
+</body>
+</html>
